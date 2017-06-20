@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Surprise Me Result</title>
+  </head>
+  <body>
+    <h1>Surprises</h1>
+    {% for quote in request.session.output_list %}
+    <p> {{ quote }} </p>
+    {% endfor %}
+  </body>
+</html>
