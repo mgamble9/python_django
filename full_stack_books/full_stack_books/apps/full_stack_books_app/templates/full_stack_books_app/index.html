@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Full Stack Books</title>
+    <style type="text/css">
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        {% for bk in books %}
+        <tr>
+          <td>{{ bk.id }}</td>
+          <td>{{ bk.title }}</td>
+          <td>{{ bk.author }}</td>
+          <td>{{ bk.category }}</td>
+        </tr>
+        {% endfor %}
+      </tr>
+    </table>
+    <h1>Add a Book</h1>
+    <form action='/add_book' method='post'>
+      {% csrf_token %}
+      Title:<input type='text' name='title'>
+      Category:<input type='text' name='category'>
+      Author:<input type='text' name='author'>
+      <input type='submit' value='Submit!'>
+    </form>
+  </body>
+</html>
