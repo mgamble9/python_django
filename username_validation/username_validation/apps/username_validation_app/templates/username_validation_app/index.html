@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Username Validation</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div id="container">
+            {% if request.session.success == False %}
+                <div id="msg" class="fail">
+                    Username is not valid!
+                </div>
+            {% elif request.session.success == True %}
+                <div id="msg" class="success">
+                    The username you entered ({{request.session.last}}) is valid. Thank you!
+                </div>
+                <div class="datagrid">
+                    {% if request.session.showdata == True %}
+                        <h1>Usernames Entered:</h1>
+                        <table>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>
+                                        {{user.name}}
+                                    </td>
+                                    <td>
+                                        {{user.created_at}}
+                                    </td>
+                                    <td>
+                                        <a href="/remove/{{user.id}}">remove</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <form action="/add" method="POST">
+                {% csrf_token %}
+                    <button type="submit" name="submit" value="submit" autofocus>Add Another</button>
+                </form>
+            {% endif %}
+            {% if request.session.showform == True %}
+                    <form action="/validate" method="POST">
+                    {% csrf_token %}
+                        <input type="text" name="name" placeholder="username" autofocus>
+                        <button type="submit" name="submit" value="submit">Submit</button>
+                    </form>
+            {% endif %}
+        </div>
+    </body>
+</html>
