@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Edit Appointment</title>
+      <style type="text/css">
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          }
+      </style>
+
+  </head>
+  <body>
+    <div>
+      <a href="/logout">Logout</a>
+      <a href="/home">Home</a>
+    </div>
+      <div>
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      <h1>Edit Appointment</h1>
+      <form action="{% url 'appts:edit_appt_process' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="appt_id" value={{ appt_id }}>
+        Date:<input type="date" name="date" value="{{ appt_date }}">
+        Time:<input type="time" name="time" value="{{ appt_time }}">
+        Task:<input type="text" name="task" value="{{ task }}">
+        <select name="status">
+          <option value="done">Done</option>
+          <option value="pending">Pending</option>
+          <option value="missed">Missed</option>
+        </select>
+        <br>
+        <button type="submit" name="submit" value="submit">Save Edits</button>
+      </form>
+      <br>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Appointments</title>
+        <meta charset="UTF-8">
+          <style type="text/css">
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+              }
+          </style>
+
+
+    </head>
+    <body>
+      <div>
+        <a href="/logout">Logout</a>
+      </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message|safe}}</p>
+            {% endfor %}
+        {% endif %}
+        <h3>Welcome, {{user.name}}!</h3>
+        <h3>Your Appointments Today:</h3>
+        <table>
+          <tr>
+            <th>Tasks:</th>
+            <th>Time:</th>
+            <th>Status:</th>
+            <th>Action:</th>
+            {% for appt in todays_appts %}
+            <tr>
+              <!-- <td><a href="/destination/{{ trip.id }}">{{ trip.destination }}</a></td> -->
+              <td>{{ appt.task }}</td>
+              <td>{{ appt.appt_time | time:"h:i a" }}</td>
+              <td>{{ appt.status }}</td>
+              <td><a href="/delete_appt/{{ appt.id }}">Delete</a> <a href="/appointments/{{ appt.id }}">Edit</a></td>
+            </tr>
+            {% endfor %}
+          </tr>
+        </table>
+        <h3>Your Other Appointments:</h3>
+        <table>
+          <tr>
+            <th>Tasks:</th>
+            <th>Date:</th>
+            <th>Time:</th>
+            {% for appt in later_appts %}
+            <tr>
+              <td>{{ appt.task }}</td>
+              <!-- <td><a href="/destination/{{ trip.id }}">{{ trip.destination }}</a></td> -->
+              <td>{{ appt.appt_date | date:"SHORT_DATE_FORMAT" }}</td>
+              <td>{{ appt.appt_time | time:"h:i a" }}</td>
+              <!-- <td><a href="/join/{{ trip.id }}">Join</a></td> -->
+            </tr>
+            {% endfor %}
+          </tr>
+        </table>
+        <div>
+          <h1>Add An Appointment</h1>
+          <form action="{% url 'appts:add_appt' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="creator" value={{ request.session.id }}>
+            Date:<input type="date" name="date" autofocus>
+            Time:<input type="time" name="time" autofocus>
+            Task:<input type="text" name="task" autofocus>
+            <br>
+            <button type="submit" name="submit" value="Add">Add</button>
+          </form>
+        </div>
+    </body>
+</html>
